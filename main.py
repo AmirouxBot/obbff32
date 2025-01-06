@@ -1,4 +1,5 @@
-
+import os
+os.system('pip install telebot')
 import telebot
 from telebot.types import LabeledPrice, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 import os
