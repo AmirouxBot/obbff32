@@ -5,13 +5,13 @@ from telebot.types import LabeledPrice, InlineKeyboardMarkup, InlineKeyboardButt
 import os
 import json
 
-TOKEN = "7392893244:AAHxs8YX2jxPvEF7GWfipaYP5_8FEgOMfzw"
+TOKEN = "7529238194:AAGtgtEJAdtSc6DaMgxiOPocdkvLXmv_V0w"
 PROVIDER_TOKEN = ""
 bot = telebot.TeleBot(TOKEN)
 MEMBERS_FILE = 'members.json'
 CHANNELS_FILE = 'channels.json'
 PRODUCTS_FILE = 'products.json'
-ADMIN_USER_IDS = [7137477686]
+ADMIN_USER_IDS = [7137477686, ]
 admin_id = 7137477686
 banned_users = []
 is_bot_active = True
@@ -143,7 +143,7 @@ def main_menu():
     markup.row_width = 1
     markup.add(
         InlineKeyboardButton("راسل المطور", url="https://t.me/@U_lTl"),
-        InlineKeyboardButton("شراء الملفات", callback_data="list_products")
+        InlineKeyboardButton("شراء منتجات", callback_data="list_products")
     )
     return markup
 @bot.callback_query_handler(func=lambda call: call.data == "list_products")
@@ -170,8 +170,7 @@ def list_products(call):
             )
             
     
-    bot.send_message(call.message.chat.id, '''       مرحبا بك في قسم شراء الملفات.
-    هنا هتلاقي اي ملف مدفوع وبسعر رمزي جدا (مش عارف مين رمزي بس هما بيقولو كدا)
+    bot.send_message(call.message.chat.id, '''       مرحبا بك في قسم شراء منتجات.
                              ''', reply_markup=markup)
   
 @bot.callback_query_handler(func=lambda call: call.data.startswith("product_"))
@@ -184,7 +183,7 @@ def product_details(call):
     if product:
         bot.send_message(
             call.message.chat.id,
-            f"اسم الملف: {product['name']}\n"
+            f"اسم منتج: {product['name']}\n"
             f"الوصف: {product['description']}\n"
             f"السعر: {product['price']} نجمة\n"
             f"اللغة: {product['language']}\n",
@@ -252,14 +251,14 @@ def send_product_file(message, product_name):
             bot.send_message(message.chat.id, "تم الدفع بنجاح! شكرًا لاستخدامك الخدمة.")
             bot.send_document(message.chat.id, open(file_path, 'rb'))
         else:
-            bot.send_message(message.chat.id, "حدث خطأ، الملف غير موجود.")
+            bot.send_message(message.chat.id, "حدث خطأ، منتج غير موجود.")
     else:
-        bot.send_message(message.chat.id, "حدث خطأ، لم يتم العثور على الملف المطلوب.")
+        bot.send_message(message.chat.id, "حدث خطأ، لم يتم العثور على منتج المطلوب.")
 
 def notify_owner(username, product):
     message = (
         f"قام المستخدم @{username} بشراء التالي:\n"
-        f"اسم الملف: {product['name']}\n"
+        f"اسم منتج: {product['name']}\n"
         f"الوصف: {product['description']}\n"
         f"السعر: {product['price']} نجمة\n"
         f"اللغة: {product['language']}\n"
